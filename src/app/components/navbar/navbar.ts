@@ -1,3 +1,4 @@
+//navbar component ts
 import { Component, signal, computed, effect } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Logos } from '../../services/photos/logos';
@@ -15,11 +16,14 @@ export class Navbar {
   setShowMenu = signal(false);
   token = signal(true);
   setToken = signal(true);
+  myLinks: string[];
   constructor(
     private logos: Logos,
     private icons: Icons,
     private pages: Pages,
-  ) {}
+  ) {
+    this.myLinks = ['home', 'doctors', 'about', 'contact'];
+  }
   logo(): string {
     return this.logos.logo();
   }
@@ -28,5 +32,8 @@ export class Navbar {
   }
   profilePic(): string {
     return this.pages.profilePic();
+  }
+  updateToken(): void {
+    this.token.update((value) => !value);
   }
 }

@@ -1,24 +1,13 @@
-<!--  mb-5 border-b border-b-gray-400 -->
+<!-- navbar html -->
 <div class="flex justify-between items-center border-b border-b-gray-400 mb-5 py-4">
   <img [src]="logo()" alt="" class="w-44 cursor-pointer" />
   <ul class="hidden md:flex items-start gap-5 font-medium">
-    <li class="py-1" routerLinkActive="active" routerLink="home">
-      HOME
-      <hr />
-    </li>
-
-    <li class="py-1" routerLinkActive="active" routerLink="doctors">
-      ALL DOCTORS
-      <hr />
-    </li>
-    <li class="py-1" routerLinkActive="active" routerLink="about">
-      About
-      <hr />
-    </li>
-    <li class="py-1" routerLinkActive="active" routerLink="contact">
-      CONTACT
-      <hr />
-    </li>
+    @for (link of myLinks; track $index) {
+      <li class="py-1 cursor-pointer" routerLinkActive="active" [routerLink]="[link]">
+        {{ link }}
+        <hr />
+      </li>
+    }
   </ul>
   <div>
     <div class="flex items-center gap-4">
@@ -30,9 +19,11 @@
             class="absolute top-0 right-0 pt-14 text-base font-medium text-gray-600 z-20 hidden group-hover:block"
           >
             <div class="min-w-48 bg-stone-100 rounded flex flex-col gap-4 p-4">
-              <p class="hover:text-black cursor-pointer">My Profile</p>
-              <p class="hover:text-black cursor-pointer">My Appointments</p>
-              <p class="hover:text-black cursor-pointer">Logout</p>
+              <p class="hover:text-black cursor-pointer" routerLink="my-profile">My Profile</p>
+              <p class="hover:text-black cursor-pointer" routerLink="my-appointments">
+                My Appointments
+              </p>
+              <p class="hover:text-black cursor-pointer" (click)="updateToken()">Logout</p>
             </div>
           </div>
         </div>

@@ -5,6 +5,9 @@ import { Injectable } from '@angular/core';
 })
 export class Icons {
   dropdownIcon(): string {
-    return './icons/dropdown_icon.svg';
+    return 'icons/dropdown_icon.svg';
+  }
+  arrowIcon(): string {
+    return 'icons/arrow_icon.svg';
   }
 }
