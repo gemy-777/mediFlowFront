@@ -1,6 +1,6 @@
 <!-- navbar html -->
 <div class="flex justify-between items-center border-b border-b-gray-400 mb-5 py-4">
-  <img [src]="logo()" alt="" class="w-44 cursor-pointer" />
+  <img [src]="logo" alt="" class="w-44 cursor-pointer" />
   <ul class="hidden md:flex items-start gap-5 font-medium">
     @for (link of myLinks; track $index) {
       <li class="py-1 cursor-pointer" routerLinkActive="active" [routerLink]="[link]">
@@ -13,8 +13,8 @@
     <div class="flex items-center gap-4">
       @if (token()) {
         <div class="flex items-center gap-2 cursor-pointer group relative">
-          <img class="w-8 rounded-full" [src]="profilePic()" alt="" />
-          <img class="w-2.5" [src]="dropdownIcon()" alt="" />
+          <img class="w-8 rounded-full" [src]="profilePic" alt="" />
+          <img class="w-2.5" [src]="dropdownIcon" alt="" />
           <div
             class="absolute top-0 right-0 pt-14 text-base font-medium text-gray-600 z-20 hidden group-hover:block"
           >

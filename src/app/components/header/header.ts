@@ -1,26 +1,20 @@
 import { Component } from '@angular/core';
-import { Pages } from '../../services/photos/pages';
-import { Icons } from '../../services/photos/icons';
+import { Photos } from '../../services/photos';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
 export class Header {
-  constructor(
-    private pages: Pages,
-    private icons: Icons,
-  ) {}
-
-  groupProfile(): string {
-    return this.pages.groupProfile();
-  }
-  headerImg(): string {
-    return this.pages.headerImg();
-  }
-  arrowIcon(): string {
-    return this.icons.arrowIcon();
+  groupProfile: string;
+  headerImg: string;
+  arrowIcon: string;
+  constructor(private photos: Photos) {
+    this.groupProfile = this.photos.pages().groupProfile;
+    this.headerImg = this.photos.pages().headerImg;
+    this.arrowIcon = this.photos.icons().arrowIcon;
   }
 }

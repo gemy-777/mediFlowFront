@@ -1,9 +1,7 @@
 //navbar component ts
 import { Component, signal, computed, effect } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { Logos } from '../../services/photos/logos';
-import { Icons } from '../../services/photos/icons';
-import { Pages } from '../../services/photos/pages';
+import { Photos } from '../../services/photos';
 
 @Component({
   selector: 'app-navbar',
@@ -17,22 +15,17 @@ export class Navbar {
   token = signal(true);
   setToken = signal(true);
   myLinks: string[];
-  constructor(
-    private logos: Logos,
-    private icons: Icons,
-    private pages: Pages,
-  ) {
+
+  logo: string;
+  dropdownIcon: string;
+  profilePic: string;
+  constructor(private phots: Photos) {
     this.myLinks = ['home', 'doctors', 'about', 'contact'];
+    this.logo = this.phots.logos().logo;
+    this.dropdownIcon = this.phots.icons().dropdownIcon;
+    this.profilePic = this.phots.pages().profilePic;
   }
-  logo(): string {
-    return this.logos.logo();
-  }
-  dropdownIcon(): string {
-    return this.icons.dropdownIcon();
-  }
-  profilePic(): string {
-    return this.pages.profilePic();
-  }
+
   updateToken(): void {
     this.token.update((value) => !value);
   }
