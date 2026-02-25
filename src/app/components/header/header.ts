@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Photos } from '../../services/photos';
+import { PhotosService } from '../../services/photos-service';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -12,9 +12,9 @@ export class Header {
   groupProfile: string;
   headerImg: string;
   arrowIcon: string;
-  constructor(private photos: Photos) {
-    this.groupProfile = this.photos.pages().groupProfile;
-    this.headerImg = this.photos.pages().headerImg;
-    this.arrowIcon = this.photos.icons().arrowIcon;
+  constructor(private photosService: PhotosService) {
+    this.groupProfile = this.photosService.pages().groupProfile;
+    this.headerImg = this.photosService.pages().headerImg;
+    this.arrowIcon = this.photosService.icons().arrowIcon;
   }
 }

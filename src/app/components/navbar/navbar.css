@@ -1,9 +1,9 @@
 /* navbar component css */
 @reference "../../../styles.css";
-
+/* 
 li hr {
   @apply border-none outline-none;
 }
 li.active hr {
   @apply bg-primary h-0.5 w-3/5 mx-auto;
-}
+} */

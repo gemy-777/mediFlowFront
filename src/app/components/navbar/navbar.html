@@ -1,11 +1,11 @@
 <!-- navbar html -->
 <div class="flex justify-between items-center border-b border-b-gray-400 mb-5 py-4">
-  <img [src]="logo" alt="" class="w-44 cursor-pointer" />
+  <img [src]="logo" routerLink="/" alt="" class="w-44 cursor-pointer" />
   <ul class="hidden md:flex items-start gap-5 font-medium">
     @for (link of myLinks; track $index) {
-      <li class="py-1 cursor-pointer" routerLinkActive="active" [routerLink]="[link]">
+      <li class="py-1 cursor-pointer" routerLinkActive="active" [routerLink]="[link.toLowerCase()]">
         {{ link }}
-        <hr />
+        <hr class="border-none outline-none h-0.5 bg-primary w-3/5 m-auto hidden" />
       </li>
     }
   </ul>

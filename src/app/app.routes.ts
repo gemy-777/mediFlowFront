@@ -9,7 +9,7 @@ export const routes: Routes = [
   },
   {
     path: 'doctors/:speciality',
-    loadComponent: () => import('./pages/home/home').then((comp) => comp.Home),
+    loadComponent: () => import('./pages/doctors/doctors').then((comp) => comp.Doctors),
   },
   {
     path: 'login',

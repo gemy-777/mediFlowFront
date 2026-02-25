@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Ispeciality } from '../../interfaces/ispeciality';
 import { RouterLink } from '@angular/router';
-import { Photos } from '../../services/photos';
+import { PhotosService } from '../../services/photos-service';
 
 @Component({
   selector: 'app-speciality-menu',
@@ -11,7 +11,7 @@ import { Photos } from '../../services/photos';
 })
 export class SpecialityMenu {
   specialityData: Ispeciality[];
-  constructor(private photos: Photos) {
-    this.specialityData = this.photos.specialityData();
+  constructor(private photosService: PhotosService) {
+    this.specialityData = this.photosService.specialityData();
   }
 }

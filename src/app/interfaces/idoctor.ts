@@ -6,7 +6,7 @@ export interface Idoctor {
   degree: string;
   experience: string;
   about: string;
-  fee: number;
+  fees: number;
   address: {
     line1: string;
     line2: string;
