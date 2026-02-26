@@ -28,6 +28,8 @@ export class PhotosService {
     return {
       dropdownIcon: 'icons/dropdown_icon.svg',
       arrowIcon: 'icons/arrow_icon.svg',
+      verifiedIcon: 'icons/verified_icon.svg',
+      infoIcon: 'icons/info_icon.svg',
     };
   }
 

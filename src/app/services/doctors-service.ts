@@ -6,22 +6,23 @@ import { Idoctor } from '../interfaces/idoctor';
   providedIn: 'root',
 })
 export class DoctorsService {
-  doc1: string;
-  doc2: string;
-  doc3: string;
-  doc4: string;
-  doc5: string;
-  doc6: string;
-  doc7: string;
-  doc8: string;
-  doc9: string;
-  doc10: string;
-  doc11: string;
-  doc12: string;
-  doc13: string;
-  doc14: string;
-  doc15: string;
-  constructor(private photos: PhotosService) {
+  private doc1: string;
+  private doc2: string;
+  private doc3: string;
+  private doc4: string;
+  private doc5: string;
+  private doc6: string;
+  private doc7: string;
+  private doc8: string;
+  private doc9: string;
+  private doc10: string;
+  private doc11: string;
+  private doc12: string;
+  private doc13: string;
+  private doc14: string;
+  private doc15: string;
+  private allDoctors: Idoctor[];
+  private constructor(private photos: PhotosService) {
     this.doc1 = this.photos.doctors().doc1;
     this.doc2 = this.photos.doctors().doc2;
     this.doc3 = this.photos.doctors().doc3;
@@ -37,9 +38,7 @@ export class DoctorsService {
     this.doc13 = this.photos.doctors().doc13;
     this.doc14 = this.photos.doctors().doc14;
     this.doc15 = this.photos.doctors().doc15;
-  }
-  doctors(): Idoctor[] {
-    return [
+    this.allDoctors = [
       {
         _id: 'doc1',
         name: 'Dr. Richard James',
@@ -194,7 +193,7 @@ export class DoctorsService {
         _id: 'doc11',
         name: 'Dr. Zoe Kelly',
         image: this.doc11,
-        speciality: 'Neurologist',
+        speciality: 'Gastroenterologist',
         degree: 'MBBS',
         experience: '4 Years',
         about:
@@ -223,7 +222,7 @@ export class DoctorsService {
       {
         _id: 'doc13',
         name: 'Dr. Chloe Evans',
-        image:this.doc13,
+        image: this.doc13,
         speciality: 'General physician',
         degree: 'MBBS',
         experience: '4 Years',
@@ -266,5 +265,12 @@ export class DoctorsService {
         },
       },
     ];
+  }
+  doctors(): Idoctor[] {
+    return this.allDoctors;
+  }
+
+  doctor(id: string): Idoctor | null {
+    return this.allDoctors.find((doc) => doc._id === id) ?? null;
   }
 }

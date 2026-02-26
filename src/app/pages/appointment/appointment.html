@@ -1,1 +1,76 @@
-<p>appointment works!</p>
+@if (docInfo) {
+  <div>
+    <!--  ...........deoctor details........... -->
+    <div class="flex flex-col sm:flex-row gap-4">
+      <div>
+        <img class="bg-primary w-full sm:max-w-72 rounded-lg" [src]="docInfo.image" alt="" />
+      </div>
+      <div
+        class="flex-1 border border-gray-400 rounded-lg p-8 py-7 bg-white mx-2 sm:mx-0 mt-[80px] sm:mt-0"
+      >
+        <!--  ........doc info name,degree,experiance,... -->
+        <p class="flex items-center gap-2 text-2xl font-medium text-gray-900">
+          {{ docInfo.name }}
+          <img class="w-5" [src]="verifiedIcon" alt="" />
+        </p>
+        <div class="flex items-center gap-2 text-sm mt-1 text-gray-600">
+          <p>{{ docInfo.degree }} - {{ docInfo.speciality }}</p>
+          <button class="py-0.5 px-5 border text-xs rounded-full">{{ docInfo.experience }}</button>
+        </div>
+        <!--  .....doctor About.... -->
+        <div>
+          <p class="flex items-center gap-1 text-sm font-medium text-gray-900 mt-3">
+            <img [src]="infoIcon" alt="" />
+          </p>
+          <p class="text-sm text-gray-500 max-w-[700px] mt-1">{{ docInfo.about }}</p>
+        </div>
+        <p class="text-gray-500 font-medium mt-4">
+          Appointment fee:
+          <span class="text-gray-600">
+            {{ docInfo.fees | currency }}
+          </span>
+        </p>
+      </div>
+    </div>
+
+    <!-- ........Booking slots......... -->
+    <div class="sm:ml-72 mt-4 font-medium text-gray-700">
+      <p>Booking slots</p>
+
+      <div class="flex gap-3 items-center w-full overflow-x-scroll mt-4">
+        <div
+          *ngFor="let item of docSlots; let i = index"
+          (click)="slotIndex = i"
+          [class.bg-primary]="slotIndex === i"
+          [class.text-white]="slotIndex === i"
+          class="text-center py-6 min-w-16 rounded-full cursor-pointer border border-gray-200"
+        >
+          <p *ngIf="item[0]">{{ daysOfWeek[item[0].dateTime.getDay()] }}</p>
+          <p *ngIf="item[0]">{{ item[0].dateTime.getDate() }}</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 w-full overflow-x-scroll mt-4">
+        <ng-container *ngIf="docSlots.length > 0">
+          <p
+            *ngFor="let slot of docSlots[slotIndex]"
+            (click)="slotTime = slot.time"
+            [class.bg-primary]="slotTime === slot.time"
+            [class.text-white]="slotTime === slot.time"
+            class="text-sm font-light shrink-0 px-5 py-4 rounded-full cursor-pointer text-gray-400 border border-gray-300"
+          >
+            {{ slot.time | lowercase }}
+          </p>
+        </ng-container>
+      </div>
+
+      <button class="bg-primary text-white text-sm font-light px-14 py-3 rounded-full my-6">
+        Book an appointment
+      </button>
+    </div>
+    <app-related-doctors
+      [docId]="docInfo._id"
+      [speciality]="docInfo.speciality"
+    ></app-related-doctors>
+  </div>
+}

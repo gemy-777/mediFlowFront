@@ -10,26 +10,36 @@ import { Idoctor } from '../../interfaces/idoctor';
   styleUrl: './doctors.css',
 })
 export class Doctors implements OnInit {
-  speciality: string | null = null;
+  specialityParam: string | null = null;
+  specialityArray: string[];
   filteredDoc: Idoctor[] = [];
   constructor(
     private activatedRoute: ActivatedRoute,
     private doctorsService: DoctorsService,
-  ) {}
+  ) {
+    this.specialityArray = [
+      'General physician',
+      'Gynecologist',
+      'Dermatologist',
+      'Pediatricians',
+      'Neurologist',
+      'Gastroenterologist',
+    ];
+  }
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe({
       next: (paramMap) => {
-        this.speciality = paramMap.get('speciality');
+        this.specialityParam = paramMap.get('speciality');
         this.setFiltrerDoc();
       },
     });
   }
   setFiltrerDoc(): void {
-    if (this.speciality) {
+    if (this.specialityParam) {
       this.filteredDoc = this.doctorsService
         .doctors()
-        .filter((doc) => doc.speciality === this.speciality);
+        .filter((doc) => doc.speciality === this.specialityParam);
     } else {
       this.filteredDoc = this.doctorsService.doctors();
     }
