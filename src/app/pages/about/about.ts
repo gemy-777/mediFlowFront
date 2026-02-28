@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { PhotosService } from '../../services/photos-service';
 
 @Component({
   selector: 'app-about',
@@ -7,5 +8,8 @@ import { Component } from '@angular/core';
   styleUrl: './about.css',
 })
 export class About {
-
+  aboutImage: string;
+  constructor(private photosService: PhotosService) {
+    this.aboutImage = this.photosService.pages().aboutImage;
+  }
 }

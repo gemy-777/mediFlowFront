@@ -45,6 +45,8 @@ export class PhotosService {
 
       headerImg: 'pages/header_img.png',
       appointmentImg: 'pages/appointment_img.png',
+      aboutImage: 'pages/about_image.png',
+      contactImg: 'pages/contact_image.png',
     };
   }
 

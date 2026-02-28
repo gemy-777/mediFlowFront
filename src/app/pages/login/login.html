@@ -1,1 +1,65 @@
-<p>login works!</p>
+<form [formGroup]="userForm" class="min-h-[60vh] flex items-center" (ngSubmit)="submit()">
+  <div
+    class="flex flex-col gap-3 m-auto items-start p-8 min-w-[340px] sm:min-w-96 border rounded-xl text-zinc-600 text-sm shadow-lg"
+  >
+    @if (state() === 'Sign Up') {
+      <p class="text-2xl font-semibold">Create Account</p>
+    } @else {
+      <p class="text-2xl font-semibold">Login</p>
+    }
+    <p>Please {{ state() === 'Sign Up' ? 'sign up' : 'log in' }} to book appointment</p>
+    @if (state() === 'Sign Up') {
+      <div class="w-full">
+        <p>Full Name</p>
+        <input
+          class="border border-zinc-300 rounded w-full p-2 mt-3"
+          type="text"
+          formControlName="name"
+        />
+      </div>
+    }
+
+    <div class="w-full">
+      <p>Email</p>
+      <input
+        class="border border-zinc-300 rounded w-full p-2 mt-3"
+        type="email"
+        formControlName="email"
+      />
+    </div>
+
+    <div class="w-full">
+      <p>Password</p>
+      <input
+        class="border border-zinc-300 rounded w-full p-2 mt-3"
+        type="password"
+        formControlName="password"
+      />
+    </div>
+
+    <button
+      class="bg-primary text-white w-full py-2 rounded-md text-base"
+      type="submit"
+      [disabled]="userForm.invalid"
+    >
+      {{ state() === 'Sign Up' ? 'Creat Account' : 'log in' }}
+    </button>
+
+    @if (state() === 'Sign Up') {
+      <p>
+        Already have an account?<span
+          (click)="toggleState()"
+          class="text-primary underline cursor-pointer"
+          >Login here</span
+        >
+      </p>
+    } @else {
+      <p>
+        Create a new account?
+        <span (click)="toggleState()" class="text-primary underline cursor-pointer">
+          click here
+        </span>
+      </p>
+    }
+  </div>
+</form>
