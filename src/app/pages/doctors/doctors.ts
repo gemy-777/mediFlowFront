@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DoctorsService } from '../../services/doctors-service';
 import { Idoctor } from '../../interfaces/idoctor';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-doctors',
-  imports: [RouterLink],
+  imports: [RouterLink, NgClass],
   templateUrl: './doctors.html',
   styleUrl: './doctors.css',
 })
 export class Doctors implements OnInit {
+  showFilter = signal(false);
   specialityParam: string | null = null;
   specialityArray: string[];
   filteredDoc: Idoctor[] = [];
@@ -43,5 +45,8 @@ export class Doctors implements OnInit {
     } else {
       this.filteredDoc = this.doctorsService.doctors();
     }
+  }
+  setShowFilter() {
+    this.showFilter.update((state) => !state);
   }
 }

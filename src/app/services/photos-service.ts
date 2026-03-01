@@ -30,6 +30,8 @@ export class PhotosService {
       arrowIcon: 'icons/arrow_icon.svg',
       verifiedIcon: 'icons/verified_icon.svg',
       infoIcon: 'icons/info_icon.svg',
+      menuIcon: 'icons/menu_icon.svg',
+      crossIcon: 'icons/cross_icon.png',
     };
   }
 

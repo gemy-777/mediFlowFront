@@ -17,3 +17,19 @@
 ::-webkit-scrollbar {
   @apply hidden;
 }
+
+@media (max-width: 740px) {
+  .active p {
+    @apply text-white bg-primary;
+  }
+}
+
+/* 1. القائمة في العادي مختفية */
+.dropdown-content {
+  display: none;
+}
+
+/* 2. لما الماوس ييجي على الأب (group-container) اظهر الابن */
+.group-container:hover .dropdown-content {
+  display: block;
+}
