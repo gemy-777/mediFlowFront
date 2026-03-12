@@ -1,8 +1,9 @@
 //navbar component ts
-import { Component, signal, computed, effect } from '@angular/core';
+import { Component, signal, computed, effect, OnChanges, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { PhotosService } from '../../services/photos-service';
 import { NgClass } from '@angular/common';
+import { Authservice } from '../../services/authservice';
 
 @Component({
   selector: 'app-navbar',
@@ -10,9 +11,9 @@ import { NgClass } from '@angular/common';
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
-export class Navbar {
+export class Navbar implements OnInit {
   showMenu = signal(false);
-  token = signal(true);
+  token!: string | boolean;
 
   myLinks: string[];
 
@@ -22,7 +23,10 @@ export class Navbar {
   menuIcon: string;
   crossIcon: string;
 
-  constructor(private photosService: PhotosService) {
+  constructor(
+    private photosService: PhotosService,
+    private auth: Authservice,
+  ) {
     this.myLinks = ['HOME', 'DOCTORS', 'ABOUT', 'CONTACT'];
     this.logo = this.photosService.logos().logo;
     this.dropdownIcon = this.photosService.icons().dropdownIcon;
@@ -30,12 +34,16 @@ export class Navbar {
     this.menuIcon = this.photosService.icons().menuIcon;
     this.crossIcon = this.photosService.icons().crossIcon;
   }
-
-  updateToken(): void {
-    this.token.update((value) => !value);
+  ngOnInit() {
+    this.auth.token.subscribe((res) => {
+      this.token = res;
+    });
   }
-
   setShowMenu(newState: boolean) {
     this.showMenu.set(newState);
+  }
+
+  logout() {
+    this.auth.setToken(false);
   }
 }

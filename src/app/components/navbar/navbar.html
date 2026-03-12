@@ -11,7 +11,7 @@
   </ul>
   <div>
     <div class="flex items-center gap-4">
-      @if (token()) {
+      @if (token) {
         <div class="flex items-center gap-2 cursor-pointer group relative group-container">
           <img class="w-8 rounded-full" [src]="profilePic" alt="" />
           <img class="w-2.5" [src]="dropdownIcon" alt="" />
@@ -23,14 +23,15 @@
               <p class="hover:text-black cursor-pointer" routerLink="my-appointments">
                 My Appointments
               </p>
-              <p class="hover:text-black cursor-pointer" (click)="updateToken()">Logout</p>
+              <!-- <p class="hover:text-black cursor-pointer" (click)="updateToken()">Logout</p> -->
+              <p class="hover:text-black cursor-pointer" (click)="logout()">Logout</p>
             </div>
           </div>
         </div>
       } @else {
         <button
           class="bg-primary text-white px-8 py-3 rounded-full font-light hidden md:block"
-          routerLink="login"
+          routerLink="/login"
         >
           Creat account
         </button>
