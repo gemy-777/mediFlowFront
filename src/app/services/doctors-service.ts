@@ -4,7 +4,7 @@ import { Idoctor } from '../interfaces/idoctor';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { IdoctorResponse } from '../interfaces/idoctor-response';
+import { Iresponse } from '../interfaces/idoctor-response';
 
 @Injectable({
   providedIn: 'root',
@@ -273,8 +273,8 @@ export class DoctorsService {
       },
     ];
   }
-  getDoctorsData(): Observable<IdoctorResponse> {
-    return this._http.get<IdoctorResponse>(`${environment.BACKEND_URL}/api/doctor/list`);
+  getDoctorsData(): Observable<Iresponse> {
+    return this._http.get<Iresponse>(`${environment.BACKEND_URL}/api/doctor/list`);
   }
   doctors(): Idoctor[] {
     return this.allDoctors;

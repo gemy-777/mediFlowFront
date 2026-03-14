@@ -1,7 +1,10 @@
-import { Component, inject, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, signal } from '@angular/core';
 import { PhotosService } from '../../services/photos-service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Authservice } from '../../services/authservice';
+import { ToastrService } from 'ngx-toastr';
+import { IuserProfile } from '../../interfaces/iuser-profile';
 
 @Component({
   selector: 'app-my-profile',
@@ -9,33 +12,52 @@ import { CommonModule } from '@angular/common';
   templateUrl: './my-profile.html',
   styleUrl: './my-profile.css',
 })
-export class MyProfile {
-  photoService = inject(PhotosService);
+export class MyProfile implements OnInit {
   isEdit = signal(true);
-  userData = {
-    name: 'Edward Vincent',
-    image: this.photoService.pages().profilePic,
-    email: 'richardjameswap@gmail.com',
-    phone: '+1  123 456 7890',
-    address: {
-      line1: '57th Cross, Richmond ',
-      line2: 'Circle, Church Road, London',
-    },
-    gender: 'Male',
-    dob: '2000-01-20',
-  };
-  userForm: FormGroup = new FormGroup({
-    name: new FormControl(this.userData.name),
-    email: new FormControl(this.userData.email),
-    phone: new FormControl(this.userData.phone),
-    address: new FormGroup({
-      line1: new FormControl(this.userData.address.line1),
-      line2: new FormControl(this.userData.address.line2),
-    }),
-    gender: new FormControl(this.userData.gender),
-    dateOfBirth: new FormControl(this.userData.dob),
-  });
+  userData!: IuserProfile | false;
+  userForm!: FormGroup;
+
+  constructor(
+    private photoService: PhotosService,
+    private auth: Authservice,
+    private toastr: ToastrService,
+    private cdr: ChangeDetectorRef,
+  ) {}
+
+  ngOnInit(): void {
+    this.auth.loadUserProfileData().subscribe({
+      next: (res) => {
+        if (res.success && res.userData) {
+          this.auth.userData.next(res.userData as IuserProfile);
+          // this.userData = this.auth.userData.value;
+          this.userData = res.userData as IuserProfile;
+          this.createUserForm();
+          this.cdr.detectChanges();
+        } else {
+          this.toastr.error(res.message);
+        }
+      },
+      error: (error) => {
+        this.toastr.error(error.massage);
+      },
+    });
+  }
   changeEdit(newValue: boolean): void {
     this.isEdit.set(newValue);
+  }
+  createUserForm() {
+    if (this.userData) {
+      this.userForm = new FormGroup({
+        name: new FormControl(this.userData.name),
+        email: new FormControl(this.userData.email),
+        phone: new FormControl(this.userData.phone),
+        address: new FormGroup({
+          line1: new FormControl(this.userData.address.line1),
+          line2: new FormControl(this.userData.address.line2),
+        }),
+        gender: new FormControl(this.userData.gender),
+        dateOfBirth: new FormControl(this.userData.dob),
+      });
+    }
   }
 }

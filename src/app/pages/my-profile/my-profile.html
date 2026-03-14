@@ -1,82 +1,84 @@
-<div class="max-w-lg flex flex-col gap-2 text-sm">
-  <img class="w-36 rounded" [src]="userData.image" alt="" />
-  <form [formGroup]="userForm">
-    @if (isEdit()) {
-      <input
-        class="bg-gray-50 text-3xl font-medium max-w-60 mt-4"
-        type="text"
-        formControlName="name"
-      />
-    } @else {
-      <p class="font-medium text-3xl text-neutral-800 mt-4">{{ userData.name }}</p>
-    }
-    <hr class="bg-zinc-400 h-[1px] border-none" />
-    <div>
-      <p class="text-neutral-500 underline mt-3">CONTACT INFORMATION</p>
-      <div class="grid grid-cols-[1fr_3fr] gap-y-2 mt-3 text-neutral-700">
-        <p class="font-medium">Email id:</p>
-        <p class="text-blue-500">{{ userData.email }}</p>
-        <p class="font-medium">Phone:</p>
-        @if (isEdit()) {
-          <input class="bg-gray-50 max-w-52" formControlName="phone" type="text" />
-        } @else {
-          <p class="text-blue-400">{{ userData.phone }}</p>
-        }
+@if (userData) {
+  <div class="max-w-lg flex flex-col gap-2 text-sm">
+    <img class="w-36 rounded" [src]="userData.image" alt="" />
+    <form [formGroup]="userForm">
+      @if (isEdit()) {
+        <input
+          class="bg-gray-50 text-3xl font-medium max-w-60 mt-4"
+          type="text"
+          formControlName="name"
+        />
+      } @else {
+        <p class="font-medium text-3xl text-neutral-800 mt-4">{{ userData.name }}</p>
+      }
+      <hr class="bg-zinc-400 h-px border-none" />
+      <div>
+        <p class="text-neutral-500 underline mt-3">CONTACT INFORMATION</p>
+        <div class="grid grid-cols-[1fr_3fr] gap-y-2 mt-3 text-neutral-700">
+          <p class="font-medium">Email id:</p>
+          <p class="text-blue-500">{{ userData.email }}</p>
+          <p class="font-medium">Phone:</p>
+          @if (isEdit()) {
+            <input class="bg-gray-50 max-w-52" formControlName="phone" type="text" />
+          } @else {
+            <p class="text-blue-400">{{ userData.phone }}</p>
+          }
 
-        <p class="font-medium">Address:</p>
-        @if (isEdit()) {
-          <div formGroupName="address">
-            <input class="bg-gray-50" type="text" formControlName="line1" />
-            <br />
-            <input class="bg-gray-50" type="text" formControlName="line2" />
-          </div>
-        } @else {
-          <p class="text-gray-500">
-            {{ userData.address.line1 }}
-            <br />
-            {{ userData.address.line2 }}
-          </p>
-        }
+          <p class="font-medium">Address:</p>
+          @if (isEdit()) {
+            <div formGroupName="address">
+              <input class="bg-gray-50" type="text" formControlName="line1" />
+              <br />
+              <input class="bg-gray-50" type="text" formControlName="line2" />
+            </div>
+          } @else {
+            <p class="text-gray-500">
+              {{ userData.address.line1 }}
+              <br />
+              {{ userData.address.line2 }}
+            </p>
+          }
+        </div>
       </div>
-    </div>
-    <div>
-      <p class="text-neutral-500 underline mt-3">BASIC INFORMATION</p>
+      <div>
+        <p class="text-neutral-500 underline mt-3">BASIC INFORMATION</p>
 
-      <div class="grid grid-cols-[1fr_3fr] gap-y-2.5 mt-3 text-neutral-700">
-        <p class="font-medium">Gender:</p>
-        @if (isEdit()) {
-          <select class="max-w-20 bg-gray-100" formControlName="gender">
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-          </select>
-        } @else {
-          <p class="text-gray-400">{{ userData.gender }}</p>
-        }
+        <div class="grid grid-cols-[1fr_3fr] gap-y-2.5 mt-3 text-neutral-700">
+          <p class="font-medium">Gender:</p>
+          @if (isEdit()) {
+            <select class="max-w-20 bg-gray-100" formControlName="gender">
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          } @else {
+            <p class="text-gray-400">{{ userData.gender }}</p>
+          }
 
-        <p>Birthday:</p>
-        @if (isEdit()) {
-          <input class="max-w-28 bg-gray-100" type="date" formControlName="dateOfBirth" />
-        } @else {
-          <p class="text-gray-400">{{ userData.dob }}</p>
-        }
+          <p>Birthday:</p>
+          @if (isEdit()) {
+            <input class="max-w-28 bg-gray-100" type="date" formControlName="dateOfBirth" />
+          } @else {
+            <p class="text-gray-400">{{ userData.dob }}</p>
+          }
+        </div>
+        <div class="mt-10">
+          @if (isEdit()) {
+            <button
+              class="border border-primary px-8 py-2 rounded-full hover:bg-primary hover:text-white transition-all"
+              (click)="changeEdit(false)"
+            >
+              Save information
+            </button>
+          } @else {
+            <button
+              class="border border-primary px-8 py-2 rounded-full hover:bg-primary hover:text-white transition-all"
+              (click)="changeEdit(true)"
+            >
+              Edit
+            </button>
+          }
+        </div>
       </div>
-      <div class="mt-10">
-        @if (isEdit()) {
-          <button
-            class="border border-primary px-8 py-2 rounded-full hover:bg-primary hover:text-white transition-all"
-            (click)="changeEdit(false)"
-          >
-            Save information
-          </button>
-        } @else {
-          <button
-            class="border border-primary px-8 py-2 rounded-full hover:bg-primary hover:text-white transition-all"
-            (click)="changeEdit(true)"
-          >
-            Edit
-          </button>
-        }
-      </div>
-    </div>
-  </form>
-</div>
+    </form>
+  </div>
+}
