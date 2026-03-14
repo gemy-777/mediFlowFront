@@ -86,4 +86,45 @@ export class MyProfile implements OnInit {
     // 3. لو مفيش صورة مختارة، ارجع بصورة اليوزر القديمة
     return (this.userData as IuserProfile).image || this.photoService.logos().uploadArea;
   }
+
+  updateUserProfileDate() {
+    const formData = new FormData();
+    const formRawValue = this.userForm.value;
+    // formData.append('name', this.userForm.get('name')?.value);
+    // formData.append('phone', this.userForm.get('phone')?.value);
+    // formData.append('address', JSON.stringify(this.userForm.get('address')?.value));
+
+    formData.append('name', formRawValue.name);
+    formData.append('phone', formRawValue.phone);
+    formData.append('gender', formRawValue.gender);
+    formData.append('dob', formRawValue.dateOfBirth);
+    formData.append('address', JSON.stringify(formRawValue.address));
+    if (this.image()) {
+      formData.append('image', this.image()!);
+    }
+
+    this.auth.updateUserProfileDate(formData).subscribe({
+      next: (res) => {
+        if (res.success) {
+          this.toastr.success(res.message);
+          this.isEdit.set(false);
+          this.auth.loadUserProfileData().subscribe({
+            next: (profileRes) => {
+              if (profileRes.success) {
+                this.userData = profileRes.userData as IuserProfile;
+                this.auth.userData.next(profileRes.userData as IuserProfile);
+                this.createUserForm(); // نعيد بناء الفورم بالبيانات الجديدة
+                this.cdr.detectChanges();
+              }
+            },
+          });
+        } else {
+          this.toastr.error(res.message);
+        }
+      },
+      error: (error) => {
+        this.toastr.error(error.message);
+      },
+    });
+  }
 }

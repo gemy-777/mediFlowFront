@@ -45,4 +45,16 @@ export class Authservice {
       }),
     });
   }
+  updateUserProfileDate(userData: any): Observable<Iresponse> {
+    const currentToken = this.token.value;
+    return this._http.post<Iresponse>(
+      `${environment.BACKEND_URL}/api/user/update-profile`,
+      userData,
+      {
+        headers: new HttpHeaders({
+          token: String(currentToken),
+        }),
+      },
+    );
+  }
 }
