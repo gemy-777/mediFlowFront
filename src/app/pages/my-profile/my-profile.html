@@ -1,6 +1,23 @@
 @if (userData) {
   <div class="max-w-lg flex flex-col gap-2 text-sm">
-    <img class="w-36 rounded" [src]="userData.image" alt="" />
+    @if (isEdit()) {
+      <label htmlFor="image">
+        <div class="inline-block relative cursor-pointer">
+          <img [src]="getProfileImage()" class="w-36 rounded opacity-75" alt="" />
+
+          <img
+            [src]="photoService.icons().uploadIcon"
+            class="w-10 absolute bottom-12 right-12"
+            alt=""
+          />
+        </div>
+        <!-- onChange={(e) => setImage(e.target.files[0])} -->
+        <input (change)="setImage($event.target.files)" type="file" id="image" hidden />
+      </label>
+    } @else {
+      <img class="w-36 rounded" [src]="userData.image" alt="" />
+    }
+
     <form [formGroup]="userForm">
       @if (isEdit()) {
         <input

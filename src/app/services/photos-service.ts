@@ -32,11 +32,12 @@ export class PhotosService {
       infoIcon: 'icons/info_icon.svg',
       menuIcon: 'icons/menu_icon.svg',
       crossIcon: 'icons/cross_icon.png',
+      uploadIcon: 'icons/upload_icon.png',
     };
   }
 
   logos() {
-    return { logo: './logos/logo.svg' };
+    return { logo: './logos/logo.svg', uploadArea: 'logos/upload_area.png' };
   }
 
   pages() {

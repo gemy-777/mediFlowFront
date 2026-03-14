@@ -6,6 +6,8 @@ import { Authservice } from '../../services/authservice';
 import { ToastrService } from 'ngx-toastr';
 import { IuserProfile } from '../../interfaces/iuser-profile';
 
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+
 @Component({
   selector: 'app-my-profile',
   imports: [ReactiveFormsModule, CommonModule],
@@ -13,15 +15,18 @@ import { IuserProfile } from '../../interfaces/iuser-profile';
   styleUrl: './my-profile.css',
 })
 export class MyProfile implements OnInit {
-  isEdit = signal(true);
+  isEdit = signal(false);
+  image = signal<null>(null);
+
   userData!: IuserProfile | false;
   userForm!: FormGroup;
 
   constructor(
-    private photoService: PhotosService,
+    public photoService: PhotosService,
     private auth: Authservice,
     private toastr: ToastrService,
     private cdr: ChangeDetectorRef,
+    private sanitizer: DomSanitizer,
   ) {}
 
   ngOnInit(): void {
@@ -59,5 +64,26 @@ export class MyProfile implements OnInit {
         dateOfBirth: new FormControl(this.userData.dob),
       });
     }
+  }
+
+  setImage(files: any) {
+    const file = files[0];
+    if (file) {
+      this.image.set(file);
+    }
+  }
+
+  getProfileImage(): SafeUrl | string {
+    const selectedFile = this.image(); // لو أنت مستخدم Signal
+
+    if (selectedFile) {
+      // 1. إنشاء الرابط المؤقت
+      const objectUrl = URL.createObjectURL(selectedFile);
+      // 2. تأمين الرابط عشان أنجلر يرضى يعرضه
+      return this.sanitizer.bypassSecurityTrustUrl(objectUrl);
+    }
+
+    // 3. لو مفيش صورة مختارة، ارجع بصورة اليوزر القديمة
+    return (this.userData as IuserProfile).image || this.photoService.logos().uploadArea;
   }
 }
