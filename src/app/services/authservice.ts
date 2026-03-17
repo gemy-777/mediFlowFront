@@ -41,7 +41,7 @@ export class Authservice {
     const currentToken = this.token.value;
     return this._http.get<Iresponse>(`${environment.BACKEND_URL}/api/user/get-profile`, {
       headers: new HttpHeaders({
-        token: String(currentToken),
+        token: String(currentToken || ''),
       }),
     });
   }

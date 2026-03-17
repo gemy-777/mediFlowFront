@@ -45,8 +45,8 @@
           [class.text-white]="slotIndex === i"
           class="text-center py-6 min-w-16 rounded-full cursor-pointer border border-gray-200"
         >
-          <p *ngIf="item[0]">{{ daysOfWeek[item[0].dateTime.getDay()] }}</p>
-          <p *ngIf="item[0]">{{ item[0].dateTime.getDate() }}</p>
+          <p *ngIf="item[0]">{{ daysOfWeek[item[0].datetime.getDay()] }}</p>
+          <p *ngIf="item[0]">{{ item[0].datetime.getDate() }}</p>
         </div>
       </div>
 
@@ -64,7 +64,10 @@
         </ng-container>
       </div>
 
-      <button class="bg-primary text-white text-sm font-light px-14 py-3 rounded-full my-6">
+      <button
+        (click)="bookAppointment()"
+        class="bg-primary text-white text-sm font-light px-14 py-3 rounded-full my-6"
+      >
         Book an appointment
       </button>
     </div>

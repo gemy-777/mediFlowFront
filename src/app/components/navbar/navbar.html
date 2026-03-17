@@ -11,9 +11,9 @@
   </ul>
   <div>
     <div class="flex items-center gap-4">
-      @if (token) {
+      @if (token && userDate) {
         <div class="flex items-center gap-2 cursor-pointer group relative group-container">
-          <img class="w-8 rounded-full" [src]="profilePic" alt="" />
+          <img class="w-8 rounded-full" [src]="userDate.image" alt="" />
           <img class="w-2.5" [src]="dropdownIcon" alt="" />
           <div
             class="absolute top-0 right-0 pt-14 text-base font-medium text-gray-600 z-20 hidden group-hover:block dropdown-content"

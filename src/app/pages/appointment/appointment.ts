@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Idoctor } from '../../interfaces/idoctor';
 import { DoctorsService } from '../../services/doctors-service';
 import { PhotosService } from '../../services/photos-service';
 import { CommonModule, CurrencyPipe, LowerCasePipe } from '@angular/common';
 import { RelatedDoctors } from '../../components/related-doctors/related-doctors';
+import { Authservice } from '../../services/authservice';
+import { ToastrService } from 'ngx-toastr';
+import { AppointmentService } from '../../services/appointment-service';
 
 @Component({
   selector: 'app-appointment',
@@ -17,6 +20,7 @@ export class Appointment implements OnInit {
   docInfo!: Idoctor | null;
   verifiedIcon: string;
   infoIcon: string;
+  token!: string | boolean;
 
   daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
   docSlots: any[][] = []; // مصفوفة فيها أيام، وكل يوم جواه مواعيد
@@ -25,8 +29,12 @@ export class Appointment implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private doctorsService: DoctorsService,
     private photosService: PhotosService,
+    private auth: Authservice,
+    private toastr: ToastrService,
+    private router: Router,
+    private appointmentService: AppointmentService,
+    private doctorService: DoctorsService,
   ) {
     this.verifiedIcon = this.photosService.icons().verifiedIcon;
     this.infoIcon = this.photosService.icons().infoIcon;
@@ -38,14 +46,14 @@ export class Appointment implements OnInit {
         this.docId = paramMap.get('docId');
         this.doctor();
         console.log(this.docInfo);
+        this.getAvailableSlots();
       },
     });
-
-    this.getAvailableSlots();
+    this.token = this.auth.token.value;
   }
   doctor(): void {
     if (this.docId) {
-      this.docInfo = this.doctorsService.doctor(this.docId);
+      this.docInfo = this.doctorService.doctor(this.docId);
     }
   }
 
@@ -77,13 +85,52 @@ export class Appointment implements OnInit {
         });
 
         timeSlots.push({
-          dateTime: new Date(currentDate),
+          datetime: new Date(currentDate),
           time: formattedTime,
         });
 
         currentDate.setMinutes(currentDate.getMinutes() + 30);
       }
       this.docSlots.push(timeSlots);
+    }
+  }
+
+  bookAppointment() {
+    if (!this.token) {
+      this.toastr.warning('Login to book appointment');
+      this.router.navigateByUrl('/login');
+      return;
+    }
+
+    // التأكد من اختيار وقت
+    if (!this.slotTime) {
+      this.toastr.info('Please select a time slot');
+      return;
+    }
+    const date = this.docSlots[this.slotIndex][0].datetime;
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+    const slotDate = day + '_' + month + '_' + year;
+    console.log(slotDate);
+    if (this.docId && slotDate && this.slotTime) {
+      this.appointmentService
+        .bookAppointment({ docId: this.docId, slotDate, slotTime: this.slotTime })
+        .subscribe({
+          next: (res) => {
+            if (res.success) {
+              this.toastr.success(res.message);
+              this.doctorService.getDoctorsData().subscribe();
+              this.router.navigate(['/my-appointments']);
+            } else {
+              this.toastr.error(res.message);
+            }
+          },
+          error: (error) => {
+            console.log(error);
+            this.toastr.error(error.message);
+          },
+        });
     }
   }
 }

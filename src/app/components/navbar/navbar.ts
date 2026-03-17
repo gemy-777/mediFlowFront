@@ -4,6 +4,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { PhotosService } from '../../services/photos-service';
 import { NgClass } from '@angular/common';
 import { Authservice } from '../../services/authservice';
+import { IuserProfile } from '../../interfaces/iuser-profile';
 
 @Component({
   selector: 'app-navbar',
@@ -14,7 +15,7 @@ import { Authservice } from '../../services/authservice';
 export class Navbar implements OnInit {
   showMenu = signal(false);
   token!: string | boolean;
-
+  userDate!: IuserProfile;
   myLinks: string[];
 
   logo: string;
@@ -37,6 +38,9 @@ export class Navbar implements OnInit {
   ngOnInit() {
     this.auth.token.subscribe((res) => {
       this.token = res;
+    });
+    this.auth.loadUserProfileData().subscribe((res) => {
+      if (res.userData) this.userDate = res.userData as IuserProfile;
     });
   }
   setShowMenu(newState: boolean) {

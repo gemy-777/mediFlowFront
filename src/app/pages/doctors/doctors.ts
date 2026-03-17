@@ -1,8 +1,8 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DoctorsService } from '../../services/doctors-service';
 import { Idoctor } from '../../interfaces/idoctor';
-import { NgClass } from '@angular/common';
+import { JsonPipe, NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-doctors',
@@ -14,10 +14,11 @@ export class Doctors implements OnInit {
   showFilter = signal(false);
   specialityParam: string | null = null;
   specialityArray: string[];
-  filteredDoc: Idoctor[] = [];
+  filteredDoc!: Idoctor[];
   constructor(
     private activatedRoute: ActivatedRoute,
     private doctorsService: DoctorsService,
+    private cdr: ChangeDetectorRef,
   ) {
     this.specialityArray = [
       'General physician',
@@ -27,6 +28,13 @@ export class Doctors implements OnInit {
       'Neurologist',
       'Gastroenterologist',
     ];
+
+    this.doctorsService.getDoctorsData().subscribe({
+      next: (res) => {
+        this.filteredDoc = res.doctors as Idoctor[];
+        this.cdr.detectChanges();
+      },
+    });
   }
 
   ngOnInit(): void {
@@ -39,11 +47,18 @@ export class Doctors implements OnInit {
   }
   setFiltrerDoc(): void {
     if (this.specialityParam) {
+      console.log('from doctor.ts', this.doctorsService.doctors());
       this.filteredDoc = this.doctorsService
         .doctors()
         .filter((doc) => doc.speciality === this.specialityParam);
     } else {
-      this.filteredDoc = this.doctorsService.doctors();
+      this.doctorsService.getDoctorsData().subscribe({
+        next: (res) => {
+          console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhh', res.doctors);
+          this.filteredDoc = res.doctors as Idoctor[];
+        },
+      });
+      // this.filteredDoc = this.doctorsService.doctors();
     }
   }
   setShowFilter() {
