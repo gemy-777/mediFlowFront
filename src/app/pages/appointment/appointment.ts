@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Idoctor } from '../../interfaces/idoctor';
 import { DoctorsService } from '../../services/doctors-service';
@@ -35,6 +35,7 @@ export class Appointment implements OnInit {
     private router: Router,
     private appointmentService: AppointmentService,
     private doctorService: DoctorsService,
+    private cdr: ChangeDetectorRef,
   ) {
     this.verifiedIcon = this.photosService.icons().verifiedIcon;
     this.infoIcon = this.photosService.icons().infoIcon;
@@ -44,9 +45,18 @@ export class Appointment implements OnInit {
     this.activatedRoute.paramMap.subscribe({
       next: (paramMap) => {
         this.docId = paramMap.get('docId');
-        this.doctor();
-        console.log(this.docInfo);
-        this.getAvailableSlots();
+        //to avoid empty page
+        this.doctorService.allDoctors.subscribe((docs) => {
+          if (docs && docs.length > 0) {
+            this.doctor();
+            if (this.docInfo) {
+              this.getAvailableSlots();
+              this.cdr.detectChanges();
+            }
+          } else {
+            this.doctorService.getDoctorsData().subscribe();
+          }
+        });
       },
     });
     this.token = this.auth.token.value;
@@ -83,12 +93,28 @@ export class Appointment implements OnInit {
           hour: '2-digit',
           minute: '2-digit',
         });
+        //  start 10:50
+        let day = currentDate.getDate();
+        let month = currentDate.getMonth() + 1;
+        let year = currentDate.getFullYear();
 
-        timeSlots.push({
-          datetime: new Date(currentDate),
-          time: formattedTime,
-        });
+        const slotDate = day + '_' + month + '_' + year;
+        const slotTime = formattedTime;
+        const isSlotAvailable =
+          this.docInfo?.slots_booked?.[slotDate] &&
+          this.docInfo.slots_booked[slotDate].includes(slotTime)
+            ? false
+            : true;
 
+        if (isSlotAvailable) {
+          //add slot to array
+          timeSlots.push({
+            datetime: new Date(currentDate),
+            time: formattedTime,
+          });
+        }
+        //  end 10:50
+        //increment current time by 30 minutes
         currentDate.setMinutes(currentDate.getMinutes() + 30);
       }
       this.docSlots.push(timeSlots);

@@ -11,4 +11,5 @@ export interface Idoctor {
     line1: string;
     line2: string;
   };
+  slots_booked?: any;
 }

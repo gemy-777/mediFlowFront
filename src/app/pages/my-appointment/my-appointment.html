@@ -1,20 +1,21 @@
+@if (appointments().length) {}
 <div>
   <p class="pd-3 mt-12 font-medium text-zinc-700 border-b">My appointments</p>
   <div>
-    @for (doctor of allDoctors | slice: 0 : 3; track doctor._id) {
+    @for (item of appointments(); track item._id) {
       <div class="grid grid-cols-[1fr_2fr] gap-4 sm:flex sm:gap-6 py-2 border-b">
         <div>
-          <img class="w-32 bg-indigo-50" [src]="doctor.image" alt="" />
+          <img class="w-32 bg-indigo-50" [src]="item.docData.image" alt="" />
         </div>
         <div class="flex-1 text-sm text-zinc-600">
-          <p class="text-neutral-800 font-semibold">{{ doctor.name }}</p>
-          <p>{{ doctor.speciality }}</p>
+          <p class="text-neutral-800 font-semibold">{{ item.docData.name }}</p>
+          <p>{{ item.docData.speciality }}</p>
           <p class="text-zinc-700 font-medium mt-1">Address:</p>
-          <p class="text-xs">{{ doctor.address.line1 }}</p>
-          <p class="text-xs">{{ doctor.address.line2 }}</p>
+          <p class="text-xs">{{ item.docData.address.line1 }}</p>
+          <p class="text-xs">{{ item.docData.address.line2 }}</p>
           <p class="text-sm mt-1">
             <span class="text-sm text-neutral-700 font-medium">Date & Time:</span>
-            25, July, 2024 | 8:30 PM
+            {{ item.slotDate }} | {{ item.slotTime }}
           </p>
         </div>
         <div></div>

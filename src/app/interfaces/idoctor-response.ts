@@ -4,4 +4,5 @@ export interface Iresponse {
   message?: string;
   token?: string;
   userData?: {};
+  appointments?: any[];
 }

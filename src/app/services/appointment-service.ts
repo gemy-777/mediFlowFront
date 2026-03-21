@@ -25,4 +25,12 @@ export class AppointmentService {
       },
     );
   }
+  getUserAppointemants(): Observable<Iresponse> {
+    const currentToken = this.auth.token.value;
+    return this._http.get<Iresponse>(`${environment.BACKEND_URL}/api/user/appointment`, {
+      headers: new HttpHeaders({
+        token: String(currentToken),
+      }),
+    });
+  }
 }
