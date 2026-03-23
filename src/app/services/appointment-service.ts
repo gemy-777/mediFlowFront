@@ -9,6 +9,8 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class AppointmentService {
+  // استخدم رابط الـ ngrok بتاعك هنا للباك إند
+  private backendUrl = 'https://unfeeding-congenially-ardella.ngrok-free.dev';
   constructor(
     private _http: HttpClient,
     private auth: Authservice,
@@ -32,5 +34,43 @@ export class AppointmentService {
         token: String(currentToken),
       }),
     });
+  }
+  cancelAppointment(appointmentId: string): Observable<Iresponse> {
+    const currentToken = this.auth.token.value;
+    return this._http.post<Iresponse>(
+      `${environment.BACKEND_URL}/api/user/cancel-appointment`,
+      { appointmentId },
+      {
+        headers: new HttpHeaders({ token: String(currentToken) }),
+      },
+    );
+  }
+
+  payOnline(appointmentId: string, token: string) {
+    const headers = new HttpHeaders().set('token', token);
+    return this._http.post<any>(
+      `${this.backendUrl}/api/user/payment-paymob`,
+      { appointmentId },
+      { headers },
+    );
+  }
+
+  // verifyPayment(success: boolean, appointmentId: string, token: string) {
+  //   const headers = new HttpHeaders().set('token', token);
+  //   return this._http.post<any>(
+  //     `${this.backendUrl}/api/user/verifyPaymob`,
+  //     { success, appointmentId },
+  //     { headers },
+  //   );
+  // }
+
+  verifyPayment(success: boolean, paymobOrderId: string, token: string) {
+    const headers = new HttpHeaders().set('token', token);
+    // بنبعت رقم الأوردر اللي سحبناه من الـ URL باسم "order" عشان الـ Controller يلقطه
+    return this._http.post<any>(
+      `${this.backendUrl}/api/user/verify`,
+      { success, order: paymobOrderId },
+      { headers },
+    );
   }
 }

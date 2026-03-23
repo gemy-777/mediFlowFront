@@ -1,35 +1,45 @@
-@if (appointments().length) {}
 <div>
   <p class="pd-3 mt-12 font-medium text-zinc-700 border-b">My appointments</p>
   <div>
-    @for (item of appointments(); track item._id) {
+    @for (appoint of appointments(); track appoint._id) {
       <div class="grid grid-cols-[1fr_2fr] gap-4 sm:flex sm:gap-6 py-2 border-b">
         <div>
-          <img class="w-32 bg-indigo-50" [src]="item.docData.image" alt="" />
+          <img class="w-32 bg-indigo-50" [src]="appoint.docData.image" alt="" />
         </div>
         <div class="flex-1 text-sm text-zinc-600">
-          <p class="text-neutral-800 font-semibold">{{ item.docData.name }}</p>
-          <p>{{ item.docData.speciality }}</p>
+          <p class="text-neutral-800 font-semibold">{{ appoint.docData.name }}</p>
+          <p>{{ appoint.docData.speciality }}</p>
           <p class="text-zinc-700 font-medium mt-1">Address:</p>
-          <p class="text-xs">{{ item.docData.address.line1 }}</p>
-          <p class="text-xs">{{ item.docData.address.line2 }}</p>
+          <p class="text-xs">{{ appoint.docData.address.line1 }}</p>
+          <p class="text-xs">{{ appoint.docData.address.line2 }}</p>
           <p class="text-sm mt-1">
             <span class="text-sm text-neutral-700 font-medium">Date & Time:</span>
-            {{ item.slotDate }} | {{ item.slotTime }}
+            {{ slotDateFormat(appoint.slotDate) }} | {{ appoint.slotTime }}
           </p>
         </div>
         <div></div>
         <div class="flex flex-col gap-2 justify-end">
-          <button
-            class="text-sm text-ston-500 text-center sm:min-w-48 py-2 border rounded hover:bg-primary hover:text-white transition-all duration-300"
-          >
-            Pay Online
-          </button>
-          <button
-            class="text-sm text-ston-500 text-center sm:min-w-48 py-2 border rounded hover:bg-red-600 hover:text-white transition-all duration-300"
-          >
-            Cancel appointment
-          </button>
+          @if (!appoint.cancelled) {
+            <button
+              (click)="payOnline(appoint._id)"
+              class="text-sm text-ston-500 text-center sm:min-w-48 py-2 border rounded hover:bg-primary hover:text-white transition-all duration-300"
+            >
+              Pay Online
+            </button>
+          }
+          @if (!appoint.cancelled) {
+            <button
+              (click)="cancelAppointment(appoint._id)"
+              class="text-sm text-ston-500 text-center sm:min-w-48 py-2 border rounded hover:bg-red-600 hover:text-white transition-all duration-300"
+            >
+              Cancel appointment
+            </button>
+          }
+          @if (appoint.cancelled) {
+            <button class="sm:min-w-48 py-2 border border-red-500 rounded text-red-500">
+              Appointment cancelled
+            </button>
+          }
         </div>
       </div>
     }
