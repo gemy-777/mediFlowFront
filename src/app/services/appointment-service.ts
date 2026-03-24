@@ -55,6 +55,21 @@ export class AppointmentService {
     );
   }
 
+  // response from node is text
+
+  verifyPayment(success: boolean, paymobOrderId: string, token: string) {
+    const headers = new HttpHeaders().set('token', token);
+
+    return this._http.post<any>(
+      `${this.backendUrl}/api/user/verify`,
+      { success, order: paymobOrderId },
+      {
+        headers,
+        responseType: 'text' as 'json', // <--- السطر ده هو "الضربة القاضية"
+      },
+    );
+  }
+
   // verifyPayment(success: boolean, appointmentId: string, token: string) {
   //   const headers = new HttpHeaders().set('token', token);
   //   return this._http.post<any>(
@@ -64,13 +79,13 @@ export class AppointmentService {
   //   );
   // }
 
-  verifyPayment(success: boolean, paymobOrderId: string, token: string) {
-    const headers = new HttpHeaders().set('token', token);
-    // بنبعت رقم الأوردر اللي سحبناه من الـ URL باسم "order" عشان الـ Controller يلقطه
-    return this._http.post<any>(
-      `${this.backendUrl}/api/user/verify`,
-      { success, order: paymobOrderId },
-      { headers },
-    );
-  }
+  // verifyPayment(success: boolean, paymobOrderId: string, token: string) {
+  //   const headers = new HttpHeaders().set('token', token);
+  //   // بنبعت رقم الأوردر اللي سحبناه من الـ URL باسم "order" عشان الـ Controller يلقطه
+  //   return this._http.post<any>(
+  //     `${this.backendUrl}/api/user/verify`,
+  //     { success, order: paymobOrderId },
+  //     { headers },
+  //   );
+  // }
 }

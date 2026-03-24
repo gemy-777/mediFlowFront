@@ -19,7 +19,12 @@
         </div>
         <div></div>
         <div class="flex flex-col gap-2 justify-end">
-          @if (!appoint.cancelled) {
+          @if (!appoint.cancelled && appoint.payment) {
+            <button class="sm:min-w-48 py-2 border rounded text-stone-500 bg-indigo-50">
+              Paid
+            </button>
+          }
+          @if (!appoint.cancelled && !appoint.payment) {
             <button
               (click)="payOnline(appoint._id)"
               class="text-sm text-ston-500 text-center sm:min-w-48 py-2 border rounded hover:bg-primary hover:text-white transition-all duration-300"

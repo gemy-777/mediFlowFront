@@ -54,7 +54,7 @@ export class MyAppointment implements OnInit {
       next: (res) => {
         console.log('getUserAppointemants', res);
         if (res.success && res.appointments) {
-          this.appointments.set(res.appointments as Iappointmets[]);
+          this.appointments.set(res.appointments.reverse() as Iappointmets[]);
           this.cdr.detectChanges();
           console.log('this.appointments', this.appointments());
         }
@@ -76,51 +76,6 @@ export class MyAppointment implements OnInit {
       },
     });
   }
-
-  // payOnline(appointmentId: string) {
-  //   this.apointtmentsService.payOnline(appointmentId, String(this.auth.token.value)).subscribe({
-  //     next: (res) => {
-  //       if (res.success) {
-  //         const iframeId = environment.PAYMOB_IFRAME_ID;
-  //         const iframeUrl = `https://accept.paymob.com/api/acceptance/iframes/${iframeId}?payment_token=${res.paymentToken}`;
-
-  //         const paymentWindow = window.open(iframeUrl, '_blank', 'width=600,height=800');
-
-  //         const checkInterval = setInterval(() => {
-  //           try {
-  //             if (!paymentWindow || paymentWindow.closed) {
-  //               clearInterval(checkInterval);
-  //               return;
-  //             }
-
-  //             const currentUrl = paymentWindow.location.href;
-
-  //             if (currentUrl.includes('success=true')) {
-  //               // --- التعديل هنا: نسحب رقم الأوردر من الـ URL ---
-  //               const urlObj = new URL(currentUrl);
-  //               const paymobOrderId = urlObj.searchParams.get('order');
-
-  //               clearInterval(checkInterval);
-  //               paymentWindow.close();
-
-  //               if (paymobOrderId) {
-  //                 // بنباصي الـ paymobOrderId للدالة
-  //                 this.verifyStatus(true, paymobOrderId);
-  //               }
-  //             } else if (currentUrl.includes('success=false')) {
-  //               clearInterval(checkInterval);
-  //               paymentWindow.close();
-  //               this.toastr.error('Payment Failed');
-  //             }
-  //           } catch (e) {
-  //             // تجاهل خطأ الـ Cross-origin طبيعي جداً
-  //           }
-  //         }, 2000);
-  //       }
-  //     },
-  //     error: (err) => this.toastr.error(err.message),
-  //   });
-  // }
 
   payOnline(appointmentId: string) {
     this.apointtmentsService.payOnline(appointmentId, String(this.auth.token.value)).subscribe({
