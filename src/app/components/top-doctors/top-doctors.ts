@@ -1,13 +1,13 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { DoctorsService } from '../../services/doctors-service';
 import { Idoctor } from '../../interfaces/idoctor';
-import { SlicePipe } from '@angular/common';
+import { SlicePipe, NgClass } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-top-doctors',
-  imports: [SlicePipe, RouterLink],
+  imports: [SlicePipe, RouterLink, NgClass],
   templateUrl: './top-doctors.html',
   styleUrl: './top-doctors.css',
 })

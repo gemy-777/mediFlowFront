@@ -2,12 +2,12 @@ import { Component, Input } from '@angular/core';
 import { Idoctor } from '../../interfaces/idoctor';
 import { DoctorsService } from '../../services/doctors-service';
 import { RelatedDoctorsPipe } from '../../../pipes/related-doctors-pipe';
-import { SlicePipe } from '@angular/common';
+import { CommonModule, SlicePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-related-doctors',
-  imports: [RelatedDoctorsPipe, SlicePipe, RouterLink],
+  imports: [RelatedDoctorsPipe, SlicePipe, RouterLink, CommonModule],
   templateUrl: './related-doctors.html',
   styleUrl: './related-doctors.css',
 })

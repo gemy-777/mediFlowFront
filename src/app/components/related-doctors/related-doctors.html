@@ -12,9 +12,15 @@
         <img class="bg-blue-50" [src]="doctor.image" alt="" />
 
         <div class="p-4">
-          <div class="flex items-center gap-2 text-sm text-center text-green-500">
-            <p class="w-2 h-2 bg-green-500 rounded-full"></p>
-            <p>Available</p>
+          <div
+            [ngClass]="doctor.available ? 'text-green-500' : 'text-gray-500'"
+            class="flex items-center gap-2 text-sm text-center"
+          >
+            <p
+              [ngClass]="doctor.available ? 'bg-green-500 ' : 'bg-gray-500 '"
+              class="w-2 h-2 rounded-full"
+            ></p>
+            <p>{{ doctor.available ? 'Available' : 'Not Available' }}</p>
           </div>
 
           <p class="text-gray-900 text-lg font-medium">{{ doctor.name }}</p>
