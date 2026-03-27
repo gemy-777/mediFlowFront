@@ -28,5 +28,5 @@ This project is built using the **MEAN Stack**, focusing on the latest releases:
 
 
 ## 👨‍💻 Developed By
-**Gemy (Abo Atef)**
-*Software Engineering Student @ FGSSR, Cairo University.*
+**Mohamed Atef**
+*Frontend Engineer | Post-Graduate Student at FGSSR, Cairo University.*
