@@ -1,59 +1,32 @@
-# Frontend
+# 🏥 MediFlow - Smart Healthcare Appointment System
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.4.
+**MediFlow** is a comprehensive healthcare appointment management system (Graduation Project), designed to streamline the booking process and communication between patients and doctors. Built with the latest web technologies to ensure high performance and a seamless user experience.
 
-## Development server
+---
 
-To start a local development server, run:
+## 🚀 Tech Stack
 
-```bash
-ng serve
-```
+This project is built using the **MEAN Stack**, focusing on the latest releases:
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+* **Frontend Framework:** `Angular 21` (Latest Release).
+* **Styling:** `Tailwind CSS v4.2` (Pure CSS-first configuration).
+* **Language:** `TypeScript`.
+* **Reactive Programming:** `RxJS`.
+* **Notifications:** `ngx-toastr` for interactive feedback.
 
-## Code scaffolding
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+---
 
-```bash
-ng generate component component-name
-```
+## ✨ Key Features
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+* **Modern UI/UX:** Fully responsive and modern design using **Tailwind 4** without external UI libraries.
+* **Smart Scheduling:** Intelligent booking system to prevent appointment overlaps.
+* **Authentication:** Secure login and data protection for patients, doctors, and admins.
+* **Admin Dashboard:** Comprehensive dashboard to manage doctors, patients, and appointments.
+* **Real-time Feedback:** Instant user notifications for successful actions or errors.
+* **Clean Architecture:** Organized code structure into Core, Shared, and Feature modules.
 
-```bash
-ng generate --help
-```
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 👨‍💻 Developed By
+**Gemy (Abo Atef)**
+*Software Engineering Student @ FGSSR, Cairo University.*
